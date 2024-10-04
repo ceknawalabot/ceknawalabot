@@ -16,8 +16,6 @@ data = response.text
 domains = data.splitlines()
 
 # Step 4: Check if the keyword is in the list of domains
-index_html = "<html><body><h1>Nawala bot (Trust Positif Checker)</h1><ul>"
-
 while True:  # Tambahkan perulangan tak terbatas
     os.system('cls' if os.name == 'nt' else 'clear')
     print("Nawala bot (Trust Positif Checker)")
