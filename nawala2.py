@@ -1,9 +1,10 @@
-import requests
-import time  # Tambahkan import ini
 import os
-import git  # Tambahkan import ini
-import pytz  # Tambahkan import ini
+import time
 from datetime import datetime
+
+import git
+import pytz
+import requests
 
 # Step 1: Read the list of keywords from list.txt
 with open('list.txt', 'r') as f:
@@ -18,7 +19,7 @@ data = response.text
 domains = data.splitlines()
 
 # Step 4: Check if the keyword is in the list of domains
-while True:  # Tambahkan perulangan tak terbatas
+while True:
     os.system('cls' if os.name == 'nt' else 'clear')
     print("Nawala bot (Trust Positif Checker)")
 
@@ -44,6 +45,9 @@ while True:  # Tambahkan perulangan tak terbatas
             .not-blocked {
                 color: green;
             }
+            .hidden {
+                display: none;
+            }
         </style>
     </head>
     <body>
@@ -52,13 +56,72 @@ while True:  # Tambahkan perulangan tak terbatas
             <ul class="list-group mt-4">
     """
 
+    # Proxy providers
+    providers = {
+        "by.u": "http://z35HIuGaVkMdOwMw:mobile;id;by.u;jakarta;jakarta@proxy.soax.com:9000",
+        "indosat": "http://z35HIuGaVkMdOwMw:mobile;id;indosat;jakarta;jakarta@proxy.soax.com:9000",
+        "smartfren": "http://z35HIuGaVkMdOwMw:mobile;id;smartfren;jakarta;jakarta@proxy.soax.com:9000",
+        "telkomsel": "http://z35HIuGaVkMdOwMw:mobile;id;telkomsel;jakarta;jakarta@proxy.soax.com:9000",
+        "xl axiata": "http://z35HIuGaVkMdOwMw:mobile;id;xl+axiata;jakarta;jakarta@proxy.soax.com:9000"
+    }
+
+    # Function to check domain with proxy
+    def check_domain_with_proxy(domain, provider):
+        proxy = providers.get(provider)
+        if proxy:
+            try:
+                # Add the scheme (https) to the domain
+                full_url = f"https://{domain}"
+                response = requests.get(full_url, proxies={"http": proxy, "https": proxy}, timeout=10)
+                print(f"Domain: {domain}, Provider: {provider}, Status Code: {response.status_code}")
+                # Log the response status code for debugging
+                return response.status_code == 200
+            except Exception as e:
+                print(f"Error checking {domain} with {provider}: {e}")
+                return False
+        else:
+            return False
+
+    # Check each keyword with each proxy provider
     for keyword in keywords:
         if keyword in domains:
             index_html += f'<li class="list-group-item list-group-item-danger">{keyword}: <span class="blocked">Blocked</span></li>'
             print(f"{keyword}: \033[91mBlocked\033[0m")
-        # Hapus bagian ini untuk tidak menampilkan yang not-blocked
-        # else:
-        #     index_html += f'<li class="list-group-item list-group-item-success">{keyword}: <span class="not-blocked">Not Blocked</span></li>'
+        else:
+            print(f"{keyword}: \033[92mNot Blocked\033[0m")
+
+        # Display proxy check results in a table
+        index_html += f"""
+            <div class="mt-4">
+                <h4 class="text-center">{keyword}</h4>
+                <button id="toggle-proxy-table" class="btn btn-primary">Show/Hide Proxy Table</button>
+                <div id="proxy-table-container" class="hidden">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Provider</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+        """
+
+        for provider_name, proxy_url in providers.items():
+            is_blocked = check_domain_with_proxy(keyword, provider_name)
+            status = "Blocked" if not is_blocked else "Not-Blocked"
+            index_html += f"""
+                            <tr>
+                                <td>{provider_name}</td>
+                                <td><span class="{status.lower()}">{status}</span></td>
+                            </tr>
+            """
+
+        index_html += """
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        """
 
     # Mengatur zona waktu Jepang
     japan_tz = pytz.timezone('Asia/Tokyo')
@@ -70,15 +133,17 @@ while True:  # Tambahkan perulangan tak terbatas
     print("Waktu di Jepang:", japan_time.strftime('%Y-%m-%d %H:%M:%S'))
 
     # Mendapatkan waktu saat ini dengan zona waktu lokal
-    local_tz = pytz.timezone('Asia/Jakarta')  # Zona waktu lokal
-    local_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
-    local_time_with_tz = f"{local_time} WIB"  # Format waktu lokal
+    local_tz = pytz.timezone('Asia/Jakarta')
+    local_time = datetime.now(local_tz)
+    local_time_with_tz = local_time.strftime('%Y-%m-%d %H:%M:%S') + ' WIB'
 
     # Mendapatkan waktu saat ini dengan zona waktu Jepang
     japan_time = datetime.now(japan_tz)
     japan_time_with_tz = f"{japan_time.strftime('%Y-%m-%d %H:%M:%S')} JST"  # Format waktu Jepang
 
-    print(f"Last update checked: {local_time_with_tz} (WIB), {japan_time_with_tz} (JST)")
+    print(
+        f"Last update checked: {local_time_with_tz} (WIB), {japan_time_with_tz} (JST)"
+    )
     index_html += f"""
             </ul>
             <p class="text-center mt-4">Last update checked: {local_time_with_tz} (WIB), {japan_time_with_tz} (JST)</p>
@@ -86,6 +151,7 @@ while True:  # Tambahkan perulangan tak terbatas
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="script.js"></script>
     </body>
     </html>
     """
@@ -102,4 +168,4 @@ while True:  # Tambahkan perulangan tak terbatas
     origin = repo.remote(name='origin')  # Ambil remote origin
     origin.push()  # Push ke GitHub
 
-    time.sleep(300)  # Tunggu selama 5 menit (300 detik)
+    time.sleep(180)  # Tunggu selama 5 menit (300 detik)
