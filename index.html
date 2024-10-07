@@ -113,22 +113,22 @@
             </div>
         
             </ul>
-            <p class="text-center mt-4">Last update checked: 2024-10-08 05:31:33 WIB (WIB), 2024-10-08 07:31:33 JST (JST)</p>
+            <p class="text-center mt-4">Last update checked: 2024-10-08 05:35:06 WIB (WIB), 2024-10-08 07:35:06 JST (JST)</p>
         </div>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
+    <script>
         $(document).ready(function() {
-            $('button[id^='toggle-']').on('click', function() {
-                var keyword = $(this).attr('id').replace('toggle-', '');
-                var resultsDiv = $('#proxy-check-results-' + keyword);
-                if (resultsDiv.css('display') === 'none') {
+            $("button[id^="toggle-"]").on("click", function() {
+                var keyword = $(this).attr("id").replace("toggle-", "");
+                var resultsDiv = $("#proxy-check-results-" + keyword);
+                if (resultsDiv.css("display") === "none") {
                     resultsDiv.show();
-                    $(this).text('Hide Proxy Check Results');
+                    $(this).text("Hide Proxy Check Results");
                 } else {
                     resultsDiv.hide();
-                    $(this).text('Show Proxy Check Results');
+                    $(this).text("Show Proxy Check Results");
                 }
             });
         });
