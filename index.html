@@ -20,21 +20,6 @@
                 color: green;
             }
         </style>
-        <script>
-            $(document).ready(function() {
-                $('button[id^="toggle-"]').on('click', function() {
-                    var keyword = $(this).attr('id').replace('toggle-', '');
-                    var resultsDiv = $('#proxy-check-results-' + keyword);
-                    if (resultsDiv.css('display') === 'none') {
-                        resultsDiv.show();
-                        $(this).text('Hide Proxy Check Results');
-                    } else {
-                        resultsDiv.hide();
-                        $(this).text('Show Proxy Check Results');
-                    }
-                });
-            });
-        </script>
     </head>
     <body>
         <div class="container mt-5">
@@ -56,7 +41,7 @@
         
                                 <tr>
                                     <td>by.u</td>
-                                    <td><span class="not-blocked">Not-Blocked</span></td>
+                                    <td><span class="blocked">Blocked</span></td>
                                 </tr>
             
                                 <tr>
@@ -127,8 +112,24 @@
                 </div>
             </div>
         
+        <script>
+            $(document).ready(function() {
+                $('button[id^="toggle-"]').on('click', function() {
+                    var keyword = $(this).attr('id').replace('toggle-', '');
+                    var resultsDiv = $('#proxy-check-results-' + keyword);
+                    if (resultsDiv.css('display') === 'none') {
+                        resultsDiv.show();
+                        $(this).text('Hide Proxy Check Results');
+                    } else {
+                        resultsDiv.hide();
+                        $(this).text('Show Proxy Check Results');
+                    }
+                });
+            });
+        </script>
+    
             </ul>
-            <p class="text-center mt-4">Last update checked: 2024-10-08 05:21:26 WIB (WIB), 2024-10-08 07:21:26 JST (JST)</p>
+            <p class="text-center mt-4">Last update checked: 2024-10-08 05:25:58 WIB (WIB), 2024-10-08 07:25:58 JST (JST)</p>
         </div>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
