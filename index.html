@@ -19,6 +19,9 @@
             .not-blocked {
                 color: green;
             }
+            .collapse-content {
+                display: none;
+            }
         </style>
     </head>
     <body>
@@ -26,92 +29,29 @@
             <h1 class="text-center">Nawala Bot Empire Group(Trust Positif Checker)</h1>
             <ul class="list-group mt-4">
     
-            <div class="mt-4">
-                <h4 class="text-center">asalbet88o.lol</h4>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Provider</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-        
-                            <tr>
-                                <td>by.u</td>
-                                <td><span class="not-blocked">not-blocked</span></td>
-                            </tr>
-            
-                            <tr>
-                                <td>indosat</td>
-                                <td><span class="not-blocked">not-blocked</span></td>
-                            </tr>
-            
-                            <tr>
-                                <td>smartfren</td>
-                                <td><span class="not-blocked">not-blocked</span></td>
-                            </tr>
-            
-                            <tr>
-                                <td>telkomsel</td>
-                                <td><span class="not-blocked">not-blocked</span></td>
-                            </tr>
-            
-                            <tr>
-                                <td>xl axiata</td>
-                                <td><span class="not-blocked">not-blocked</span></td>
-                            </tr>
-            
-                    </tbody>
-                </table>
-            </div>
-        <li class="list-group-item list-group-item-danger">indobet11x.com: <span class="blocked">Blocked</span></li>
-            <div class="mt-4">
-                <h4 class="text-center">indobet11x.com</h4>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Provider</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-        
-                            <tr>
-                                <td>by.u</td>
-                                <td><span class="blocked">blocked</span></td>
-                            </tr>
-            
-                            <tr>
-                                <td>indosat</td>
-                                <td><span class="blocked">blocked</span></td>
-                            </tr>
-            
-                            <tr>
-                                <td>smartfren</td>
-                                <td><span class="blocked">blocked</span></td>
-                            </tr>
-            
-                            <tr>
-                                <td>telkomsel</td>
-                                <td><span class="blocked">blocked</span></td>
-                            </tr>
-            
-                            <tr>
-                                <td>xl axiata</td>
-                                <td><span class="blocked">blocked</span></td>
-                            </tr>
-            
-                    </tbody>
-                </table>
-            </div>
-        
             </ul>
-            <p class="text-center mt-4">Last update checked: 2024-10-08 04:45:53 WIB (WIB), 2024-10-08 06:45:53 JST (JST)</p>
+            <p class="text-center mt-4">Last update checked: 2024-10-08 05:04:29 WIB (WIB), 2024-10-08 07:04:29 JST (JST)</p>
         </div>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('.show-providers').click(function(e) {
+                    e.preventDefault();
+                    var keyword = $(this).data('keyword');
+                    $('#provider-results-' + keyword).slideDown();
+                    $(this).hide();
+                });
+
+                $('.hide-providers').click(function(e) {
+                    e.preventDefault();
+                    var keyword = $(this).data('keyword');
+                    $('#provider-results-' + keyword).slideUp();
+                    $('.show-providers[data-keyword="' + keyword + '"]').show();
+                });
+            });
+        </script>
     </body>
     </html>
     
