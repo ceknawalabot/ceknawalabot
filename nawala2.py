@@ -155,7 +155,7 @@ while True:
 
     # Push ke GitHub
     repo = git.Repo('.')  # Inisialisasi repository
-    repo = repo.git.config('github.token','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'
+    repo = repo.git.config('github.token','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')
     repo.index.add(['index.html'])  # Tambahkan file index.html ke staging
     repo.index.commit('Update index.html')  # Commit perubahan
     repo.git.push('--set-upstream', 'origin', 'main')  # Setelah commit
