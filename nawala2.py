@@ -45,9 +45,6 @@ while True:
             .not-blocked {
                 color: green;
             }
-            .hidden {
-                display: none;
-            }
         </style>
     </head>
     <body>
@@ -72,16 +69,16 @@ while True:
             try:
                 # Add the scheme (https) to the domain
                 full_url = f"https://{domain}"
-                response = requests.get(full_url, proxies={"http": proxy, "https": proxy}, timeout=10)
-                print(f"Domain: {domain}, Provider: {provider}, Status Code: {response.status_code}")
+                response = requests.get(full_url, proxies={"http": proxy, "https": proxy}
+                , timeout=10)
+                print(f"Domain: {domain}, Provider: {provider}, Status : \033[92mNot Blocked\033[0m")
                 # Log the response status code for debugging
                 return response.status_code == 200
             except Exception as e:
-                print(f"Error checking {domain} with {provider}: {e}")
+                print(f"{domain} with {provider}: \033[91mBlocked\033[0m")
                 return False
         else:
             return False
-
     # Check each keyword with each proxy provider
     for keyword in keywords:
         if keyword in domains:
@@ -94,16 +91,14 @@ while True:
         index_html += f"""
             <div class="mt-4">
                 <h4 class="text-center">{keyword}</h4>
-                <button id="toggle-proxy-table" class="btn btn-primary">Show/Hide Proxy Table</button>
-                <div id="proxy-table-container" class="hidden">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Provider</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Provider</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
         """
 
         for provider_name, proxy_url in providers.items():
@@ -117,9 +112,8 @@ while True:
             """
 
         index_html += """
-                        </tbody>
-                    </table>
-                </div>
+                    </tbody>
+                </table>
             </div>
         """
 
@@ -151,7 +145,6 @@ while True:
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src="script.js"></script>
     </body>
     </html>
     """
@@ -168,4 +161,4 @@ while True:
     origin = repo.remote(name='origin')  # Ambil remote origin
     origin.push()  # Push ke GitHub
 
-    time.sleep(180)  # Tunggu selama 5 menit (300 detik)
+    time.sleep(1800)  # Tunggu selama 5 menit (300 detik)
